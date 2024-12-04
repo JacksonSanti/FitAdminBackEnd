@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import request
 from flask import Response
 from app.controllers.plan_controller import PlanController
@@ -93,7 +94,27 @@ def register_routes(app):
 
             data = request.get_json()  
             id = data.get('id')
-            json_data = StudentController.get_student_by_id(id)
+
+            if id is not None:
+
+                json_data = StudentController.get_student_by_id(id)
+
+            else:
+            
+                name = data.get('name')
+                email = data.get('email')
+                gender = data.get('gender')
+                birthdate = datetime.strptime(data.get('birthdate'), "%d/%m/%Y")
+                phone = data.get('phone')
+                state = data.get('state')
+                city = data.get('city')
+                neighborhood = data.get('neighborhood')
+                address = data.get('address')
+                number = data.get('number')
+                plan = data.get('plan')
+                payment = data.get('payment')
+
+                json_data = StudentController.add_new_student(name, gender, birthdate, email, phone, state, city, neighborhood, address, number, plan, payment)          
 
 
         elif request.method == 'PUT':
@@ -104,35 +125,23 @@ def register_routes(app):
             name = data.get('name')
             email = data.get('email')
             gender = data.get('gender')
-            birthdate = data.get('birthdate')
+            birthdate = datetime.strptime(data.get('birthdate'), "%d/%m/%Y")
             phone = data.get('phone')
             state = data.get('state')
             city = data.get('city')
             neighborhood = data.get('neighborhood')
             address = data.get('address')
             number = data.get('number')
+            
+            json_data = StudentController.update_student_by_id(id, name, email, gender, birthdate, phone, state, city, neighborhood, address, number)
 
-
-            json_data = {
-                'id': id,
-                'name': name,
-                'email': email,
-                'gender': gender,
-                'birthdate': birthdate,
-                'phone' : phone,
-                'state' : state,
-                'city' : city,
-                'neighborhood' : neighborhood,
-                'address' : address,
-                'number' : number,
-            }
-
-            print(json_data)
 
         elif request.method == 'DELETE':
 
             data = request.get_json()  
+
             id = data.get('id')
+
             json_data = StudentController.delete_student_by_id(id) 
 
         return general_response(json_data)
@@ -141,9 +150,12 @@ def register_routes(app):
     @main.route('/search', methods=['POST'])
     def student_search():
 
-        data = request.get_json('name')
+        data = request.get_json() 
+        name = data.get('name') 
+
+        print(name)
         
-        json_data = StudentController.get_search_student(data)
+        json_data = StudentController.get_search_student(name)
 
         return general_response(json_data)
 

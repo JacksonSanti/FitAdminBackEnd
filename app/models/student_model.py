@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, DateTime, ForeignKey
-from datetime import date, datetime
+from datetime import datetime
 from typing import Union
 from app.app import db
 
@@ -22,7 +22,7 @@ class StudentModel(db.Model):
     email: Mapped[str] = mapped_column(String, unique=True)
     phone: Mapped[str] = mapped_column(String)
 
-    state_id: Mapped[str] = mapped_column(String, ForeignKey("State.id"))
+    state_id: Mapped[int] = mapped_column(Integer, ForeignKey("State.id"))
     state: Mapped["StateModel"] = relationship("StateModel", back_populates="students") 
 
 
@@ -54,7 +54,7 @@ class StudentModel(db.Model):
         self.payment_id = payment_id
 
         if created_at:
-            self.created_at = created_at
+            self.created_at = created_at if created_at else datetime.utcnow() 
 
     def to_dict_all(self):
         return {
@@ -84,7 +84,7 @@ class StudentModel(db.Model):
 
     def get_all_student():
 
-        query = db.session.query(StudentModel)
+        query = db.session.query(StudentModel).order_by(StudentModel.id.desc())
 
         students  = query.limit(9)
 
@@ -98,10 +98,10 @@ class StudentModel(db.Model):
     
     def get_student_by_name(name: str):
 
-        student = db.session.get(StudentModel, name)
-
-        return student.to_dict_info() if student else None
-
+        students = (db.session.query(StudentModel).filter(StudentModel.name.ilike(f"%{name}%")).all())
+        
+        return [student.to_dict_info() for student in students] if students else []
+        
     def delete_student(id: int):
 
         student = StudentModel.query.get(id) 
@@ -116,15 +116,12 @@ class StudentModel(db.Model):
         return True
 
     
-    def update_student(self, id:int, name: str, gender_id: int, birthday: DateTime, email: str, phone:str, state_id:int, city:str, neighborhood:str, address:str, number:str, plan_id:int, payment_id: int):
+    def update_student(id:int, name: str, gender_id: int, birthday: DateTime, email: str, phone:str, state_id:int, city:str, neighborhood:str, address:str, number:str):
 
-        student = db.session.get(StudentModel, id)
-
-        if not student:
-
-            return None
+        try:
         
-        else:
+            student = db.session.get(StudentModel, id)
+
             student.name = name
             student.gender_id = gender_id
             student.birthday = birthday
@@ -135,8 +132,36 @@ class StudentModel(db.Model):
             student.neighborhood = neighborhood
             student.address = address
             student.number = number
-            student.plan_id = plan_id
-            student.payment_id = payment_id
 
-        return True
+
+            db.session.commit()
+
+            return True 
+
+        except Exception as e:
+
+            db.session.rollback() 
+
+            return e
+
+    def add_new_student(name: str, gender_id: int, birthday: DateTime, email: str, phone:str, state_id:int, city:str, neighborhood:str, address:str, number:str, plan_id: int, payment_id: int):
+
+
+        try:
+            student = StudentModel(name, gender_id, birthday, email, phone, state_id, city, neighborhood, address, number, plan_id, payment_id)
+
+            db.session.add(student)
+
+            db.session.commit()
+
+            return True 
+    
+        except Exception as e:
+            
+            db.session.rollback() 
+
+            return e
+        
+
+
 
