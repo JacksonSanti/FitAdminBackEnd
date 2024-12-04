@@ -116,7 +116,7 @@ class StudentModel(db.Model):
         return True
 
     
-    def update_student(id:int, name: str, gender_id: int, birthday: DateTime, email: str, phone:str, state_id:int, city:str, neighborhood:str, address:str, number:str):
+    def update_student_by_id(id:int, name: str, gender_id: int, birthday: DateTime, email: str, phone:str, state_id:int, city:str, neighborhood:str, address:str, number:str):
 
         try:
         

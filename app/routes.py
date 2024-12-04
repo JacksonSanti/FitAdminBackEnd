@@ -132,6 +132,8 @@ def register_routes(app):
             neighborhood = data.get('neighborhood')
             address = data.get('address')
             number = data.get('number')
+
+            print(name)
             
             json_data = StudentController.update_student_by_id(id, name, email, gender, birthdate, phone, state, city, neighborhood, address, number)
 
