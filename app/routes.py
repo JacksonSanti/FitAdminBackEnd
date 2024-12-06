@@ -93,29 +93,20 @@ def register_routes(app):
         elif request.method == 'POST':
 
             data = request.get_json()  
-            id = data.get('id')
+            name = data.get('name')
+            email = data.get('email')
+            gender = data.get('gender')
+            birthdate = datetime.strptime(data.get('birthdate'), "%d/%m/%Y")
+            phone = data.get('phone')
+            state = data.get('state')
+            city = data.get('city')
+            neighborhood = data.get('neighborhood')
+            address = data.get('address')
+            number = data.get('number')
+            plan = data.get('plan')
+            payment = data.get('payment')
 
-            if id is not None:
-
-                json_data = StudentController.get_student_by_id(id)
-
-            else:
-            
-                name = data.get('name')
-                email = data.get('email')
-                gender = data.get('gender')
-                birthdate = datetime.strptime(data.get('birthdate'), "%d/%m/%Y")
-                phone = data.get('phone')
-                state = data.get('state')
-                city = data.get('city')
-                neighborhood = data.get('neighborhood')
-                address = data.get('address')
-                number = data.get('number')
-                plan = data.get('plan')
-                payment = data.get('payment')
-
-                json_data = StudentController.add_new_student(name, gender, birthdate, email, phone, state, city, neighborhood, address, number, plan, payment)          
-
+            json_data = StudentController.add_new_student(name, gender, birthdate, email, phone, state, city, neighborhood, address, number, plan, payment)
 
         elif request.method == 'PUT':
 
@@ -149,16 +140,23 @@ def register_routes(app):
         return general_response(json_data)
     
     ###------------------SEARCH ROUTE----------------------###
-    @main.route('/search', methods=['POST'])
+    @main.route('/search', methods=['GET', 'POST'])
     def student_search():
+    
+        if request.method == 'GET':
 
-        data = request.get_json() 
-        name = data.get('name') 
-
-        print(name)
-        
-        json_data = StudentController.get_search_student(name)
-
+            id = request.args.get('id')  
+    
+            json_data = StudentController.get_student_by_id(id)
+    
+        elif request.method == 'POST':    
+           
+            data = request.get_json()
+            
+            name = data.get('name')
+    
+            json_data = StudentController.get_search_student(name)
+    
         return general_response(json_data)
 
     app.register_blueprint(main)

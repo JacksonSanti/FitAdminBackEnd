@@ -1,0 +1,705 @@
+openapi: 3.0.0
+info:
+  title: "FitAdmin API"
+  description: "API for managing Students"
+  version: "1.0.0"
+paths:
+  /student:
+    get:
+      summary: "Get all students"
+      description: "Retrieve a list of all students."
+      responses:
+        '200':
+          description: "A list of students"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: "The unique identifier for a student"
+                    name:
+                      type: string
+                      description: "The student's name"
+                    email:
+                      type: string
+                      description: "The student's email"
+                    gender:
+                      type: object
+                      description: "The student's gender"
+                      properties:
+                        id:
+                          type: integer
+                          description: "Gender ID"
+                        name:
+                          type: string
+                          description: "Gender name"
+                    birthdate:
+                      type: string
+                      format: date
+                      description: "The student's birthdate"
+                    phone:
+                      type: string
+                      description: "The student's phone number"
+                    state:
+                      type: object
+                      description: "The student's state"
+                      properties:
+                        id:
+                          type: integer
+                          description: "State ID"
+                        name:
+                          type: string
+                          description: "State name"
+                        abbreviation:
+                          type: string
+                          description: "State abbreviation"  
+                    city:
+                      type: string
+                      description: "The student's city"
+                    neighborhood:
+                      type: string
+                      description: "The student's neighborhood"
+                    address:
+                      type: string
+                      description: "The student's address"
+                    number:
+                      type: string
+                      description: "The student's address number"
+                    plan:
+                      type: object
+                      description: "The student's plan"
+                      properties:
+                        id:
+                          type: integer
+                          description: "Plan ID"
+                        name:
+                          type: string
+                          description: "Plan name"
+                        value:
+                          type: number
+                          format: float
+                          description: "Plan Price"
+                    payment:
+                      type: object
+                      description: "The student's payment status"
+                      properties:
+                        id:
+                          type: integer
+                          description: "Payment ID"
+                        name:
+                          type: string
+                          description: "Payment name"
+                        discount:
+                          type: number
+                          format: float
+                          description: "Payment discount"
+        '400':
+          description: "Bad request"
+        '500':
+          description: "Internal server error"
+    post:
+        summary: "Add a student"
+        description: "Add a new student"
+        requestBody:
+          required: true  
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: "The student's name"
+                    default: "Nathan"
+                  email:
+                    type: string
+                    description: "The student's email"
+                    default: "nathan@gmail.com"
+                  gender:
+                    type: integer
+                    description: "The student's email"
+                    default: 1
+                  birthdate:
+                    type: string
+                    description: "The student's email"
+                    default: "2000/07/25"
+                  phone:
+                    type: string
+                    description: "The student's phone number"
+                    default: "(15) 3242-1188"
+                  state:
+                    type: integer
+                    description: "The student's email"
+                    default: 25
+                  city:
+                    type: string
+                    description: "The student's city"
+                    default: "Votorantim"
+                  neighborhood:
+                    type: string
+                    description: "The student's neighborhood"
+                    default: "Vila Guilherme"
+                  address:
+                    type: string
+                    description: "The student's address"
+                    default: "Avenida Cristiano Vieira Pedrico"
+                  number:
+                    type: string
+                    description: "The student's number"
+                    default: "568"
+                  plan:
+                    type: integer
+                    description: "The student's plan"
+                    default: 1
+                  payment:
+                    type: integer
+                    description: "The student's plan"
+                    default: 3
+        responses:
+          '200':
+            description: "Student information below"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: boolean
+                      description: "The student's status"
+                      default: true
+          '400':
+            description: "Invalid input"
+          '404':
+            description: "Student not found"
+    put:
+        summary: "Update a student"
+        description: "Update an existing student"
+        requestBody:
+          required: true  
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: "The unique identifier for a student"
+                    default: 20
+                  name:
+                    type: string
+                    description: "The student's name"
+                    default: "Michael Watkins"
+                  email:
+                    type: string
+                    description: "The student's email"
+                    default: "michael.watkins@outlook.com"
+                  gender:
+                    type: integer
+                    description: "The student's email"
+                    default: 2
+                  birthdate:
+                    type: string
+                    description: "The student's email"
+                    default: "27/03/1995"
+                  phone:
+                    type: string
+                    description: "The student's phone number"
+                    default: "(65) 92835-1933"
+                  state:
+                    type: integer
+                    description: "The student's email"
+                    default: 11
+                  city:
+                    type: string
+                    description: "The student's city"
+                    default: "Cuiabá"
+                  neighborhood:
+                    type: string
+                    description: "The student's neighborhood"
+                    default: "Coxipó"
+                  address:
+                    type: string
+                    description: "The student's address"
+                    default: "Cuiabá Robinson Port"
+                  number:
+                    type: string
+                    description: "The student's number"
+                    default: "3050"
+                  plan:
+                    type: integer
+                    description: "The student's plan"
+                    default: 3
+                  payment:
+                    type: integer
+                    description: "The student's plan"
+                    default: 3
+        responses:
+          '200':
+              description: "Student status update below"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      status:
+                        type: boolean
+                        description: "The student's status"
+                        default: true
+          '400':
+            description: "Invalid input"
+          '404':
+            description: "Student not found"
+    delete:
+      summary: "Delete a student by ID"
+      description: "Delete all information about a student using ID."
+      requestBody:
+          required: true  
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: "The student's name"
+                    default: 30
+      responses:
+          '200':
+              description: "Student status update below"
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      status:
+                        type: boolean
+                        description: "The student's status"
+                        default: true
+          '400':
+            description: "Invalid input"
+          '404':
+            description: "Student not found"
+  /search?id={id}:
+    get:
+      summary: "Get a student by ID"
+      description: "Get information about a student by ID."
+      parameters:
+        - name: id
+          in: query
+          description: "The unique identifier for the student"
+          required: true
+          schema:
+            type: integer
+            default: 16
+      responses:
+        '200':
+          description: "Student information below"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: "The unique identifier for a student"
+                  name:
+                    type: string
+                    description: "The student's name"
+                  email:
+                    type: string
+                    description: "The student's email"
+                  gender:
+                    type: object
+                    description: "The student's gender"
+                    properties:
+                      id:
+                        type: integer
+                        description: "Gender ID"
+                      name:
+                        type: string
+                        description: "Gender name"
+                  birthdate:
+                    type: string
+                    format: date
+                    description: "The student's birthdate"
+                  phone:
+                    type: string
+                    description: "The student's phone number"
+                  state:
+                    type: object
+                    description: "The student's state"
+                    properties:
+                      id:
+                        type: integer
+                        description: "State ID"
+                      name:
+                        type: string
+                        description: "State name"
+                      abbreviation:
+                        type: string
+                        description: "State abbreviation"
+                  city:
+                    type: string
+                    description: "The student's city"
+                  neighborhood:
+                    type: string
+                    description: "The student's neighborhood"
+                  address:
+                    type: string
+                    description: "The student's address"
+                  number:
+                    type: string
+                    description: "The student's address number"
+                  plan:
+                    type: object
+                    description: "The student's plan"
+                    properties:
+                      id:
+                        type: integer
+                        description: "Plan ID"
+                      name:
+                        type: string
+                        description: "Plan name"
+                      value:
+                        type: number
+                        format: float
+                        description: "Plan price"
+                  payment:
+                    type: object
+                    description: "The student's payment status"
+                    properties:
+                      id:
+                        type: integer
+                        description: "Payment ID"
+                      name:
+                        type: string
+                        description: "Payment name"
+                      discount:
+                        type: number
+                        format: float
+                        description: "Payment discount"
+        '400':
+          description: "Invalid input"
+        '404':
+          description: "Student not found"
+  /search:
+    post:
+      summary: "Get a student by name"
+      description: "Retrieve information about a student by name."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: "The student's name"
+                  default: "Brandon"
+      responses:
+        '200':
+          description: "Student information"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: "The unique identifier for a student"
+                    name:
+                      type: string
+                      description: "The student's name"
+                    plan:
+                      type: object
+                      description: "The student's plan"
+                      properties:
+                        id:
+                          type: integer
+                          description: "Plan ID"
+                        name:
+                          type: string
+                          description: "Plan name"
+                        value:
+                          type: number
+                          format: float
+                          description: "Plan Price"
+                    payment:
+                      type: object
+                      description: "The student's payment status"
+                      properties:
+                        id:
+                          type: integer
+                          description: "Payment ID"
+                        name:
+                          type: string
+                          description: "Payment name"
+                        discount:
+                          type: number
+                          format: float
+                          description: "Payment discount"
+        '400':
+          description: "Bad request"
+        '500':
+          description: "Internal server error"
+  /plan:
+    get:
+      summary: "Get all plans"
+      description: "Retrieve a list of all plans."
+      responses:
+        '200':
+          description: "A list of plans"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: "Plan's ID"
+                    name:
+                      type: string
+                      description: "Plan's name"
+                    value:
+                      type: integer
+                      description: "Plan's value"
+        '400':
+          description: "Bad request"
+        '500':
+          description: "Internal server error"
+    post:
+        summary: "Get plan by ID"
+        description: "Get Information about a plan by ID"
+        requestBody:
+          required: true  
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: "Plan's ID"
+                    default: 1
+
+        responses:
+          '200':
+            description: "Plan Information"
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: "Plan's ID"
+                      name:
+                        type: string
+                        description: "Plan's name"
+                      value:
+                        type: integer
+                        description: "Plan's value"
+          '400':
+            description: "Bad request"
+          '500':
+            description: "Internal server error"
+  /payment:
+      get:
+        summary: "Get all payments"
+        description: "Retrieve a list of all payments."
+        responses:
+          '200':
+            description: "A list of payments"
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: "Payment's ID"
+                      name:
+                        type: string
+                        description: "Payment's name"
+                      discount:
+                        type: integer
+                        description: "Payment's value"
+          '400':
+            description: "Bad request"
+          '500':
+            description: "Internal server error"
+      post:
+          summary: "Get payment by ID"
+          description: "Get Information about a payment by ID"
+          requestBody:
+            required: true  
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: "Payment's ID"
+                      default: 1
+
+          responses:
+            '200':
+              description: "Payment information"
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: "Payment's ID"
+                        name:
+                          type: string
+                          description: "Payment's name"
+                        discount:
+                          type: integer
+                          description: "Payment's value"
+            '400':
+              description: "Bad request"
+            '500':
+              description: "Internal server error"
+  /state:
+      get:
+        summary: "Get all states"
+        description: "Retrieve a list of all states."
+        responses:
+          '200':
+            description: "A list of states"
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: "State's ID"
+                      name:
+                        type: string
+                        description: "State's name"
+                      abbreviation:
+                          type: string
+                          description: "State's value"
+          '400':
+            description: "Bad request"
+          '500':
+            description: "Internal server error"
+      post:
+          summary: "Get state by ID"
+          description: "Get Information about a state by ID"
+          requestBody:
+            required: true  
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: "State's ID"
+                      default: 1
+
+          responses:
+            '200':
+              description: "State information"
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: "State's ID"
+                        name:
+                          type: string
+                          description: "State's name"
+                        abbreviation:
+                          type: string
+                          description: "State's value"
+            '400':
+              description: "Bad request"
+            '500':
+              description: "Internal server error"
+  /gender:
+        get:
+          summary: "Get all genders"
+          description: "Retrieve a list of all genders."
+          responses:
+            '200':
+              description: "A list of genders"
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: "Gender's ID"
+                        name:
+                          type: string
+                          description: "Gender's name"
+            '400':
+              description: "Bad request"
+            '500':
+              description: "Internal server error"
+        post:
+          summary: "Get gender by ID"
+          description: "Get Information about a gender by ID"
+          requestBody:
+            required: true  
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: "Gender's ID"
+                      default: 1
+
+          responses:
+            '200':
+              description: "Gender information"
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: "State's ID"
+                        name:
+                          type: string
+                          description: "State's name"
+            '400':
+              description: "Bad request"
+            '500':
+              description: "Internal server error"
