@@ -126,7 +126,7 @@ paths:
                   birthdate:
                     type: string
                     description: "The student's email"
-                    default: "2000/07/25"
+                    default: "25/07/2000"
                   phone:
                     type: string
                     description: "The student's phone number"
