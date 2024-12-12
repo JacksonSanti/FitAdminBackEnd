@@ -91,25 +91,46 @@ def register_routes(app):
            json_data = StudentController.get_all_student()
 
         elif request.method == 'POST':
+            id = request.form.get('id')
 
-            data = request.get_json()  
-            name = data.get('name')
-            email = data.get('email')
-            gender = data.get('gender')
-            birthdate = datetime.strptime(data.get('birthdate'), "%d/%m/%Y")
-            phone = data.get('phone')
-            state = data.get('state')
-            city = data.get('city')
-            neighborhood = data.get('neighborhood')
-            address = data.get('address')
-            number = data.get('number')
-            plan = data.get('plan')
-            payment = data.get('payment')
+            if id is not None:
 
-            json_data = StudentController.add_new_student(name, gender, birthdate, email, phone, state, city, neighborhood, address, number, plan, payment)
+                name = request.form.get('name')
+                email = request.form.get('email')
+                gender = request.form.get('gender')
+                birthdate = datetime.strptime(request.form.get('birthdate'), "%d/%m/%Y")
+                phone = request.form.get('phone')
+                state = request.form.get('state')
+                city = request.form.get('city')
+                neighborhood = request.form.get('neighborhood')
+                address = request.form.get('address')
+                number = request.form.get('number')
+                plan = request.form.get('plan')
+                payment = request.form.get('payment')
+                
+                json_data = StudentController.update_student_by_id(id, name, email, gender, birthdate, phone, state, city, neighborhood, address, number)
+
+            else:
+                
+                data = request.get_json()
+
+                name = data.get('name')
+                email = data.get('email')
+                gender = data.get('gender')
+                birthdate = datetime.strptime(data.get('birthdate'), "%d/%m/%Y")
+                phone = data.get('phone')
+                state = data.get('state')
+                city = data.get('city')
+                neighborhood = data.get('neighborhood')
+                address = data.get('address')
+                number = data.get('number')
+                plan = data.get('plan')
+                payment = data.get('payment')
+
+                json_data = StudentController.add_new_student(name, gender, birthdate, email, phone, state, city, neighborhood, address, number, plan, payment)
 
         elif request.method == 'PUT':
-
+            
             data = request.get_json()
 
             id = data.get('id')
@@ -124,8 +145,6 @@ def register_routes(app):
             address = data.get('address')
             number = data.get('number')
 
-            print(name)
-            
             json_data = StudentController.update_student_by_id(id, name, email, gender, birthdate, phone, state, city, neighborhood, address, number)
 
 
